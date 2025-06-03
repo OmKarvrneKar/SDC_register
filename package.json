@@ -1,0 +1,29 @@
+{
+  "name": "sdc-registration",
+  "version": "1.0.0",
+  "description": "SDC Registration System for MVJ College of Engineering",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@fontsource/poppins": "^5.2.6",
+    "@mui/material": "^7.1.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.8.7",
+    "react-chatbotify": "^2.0.0-beta.38"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
