@@ -45,7 +45,7 @@ const features = [
 const Home: React.FC = () => {
   return (
     <>
-      <VideoBackground videoUrl="E:\omkar_mvj\sof\client\public\mvjce_clg.mp4" />
+      <VideoBackground videoUrl="assets/background.mp4" />
       <Box
         sx={{
           minHeight: '100vh',
