@@ -161,6 +161,7 @@ const Navbar = (props: Props) => {
                     color: 'inherit',
                     display: 'flex',
                     alignItems: 'center',
+                    ml: -20
                   }}
                 >
                   <LogoImage src={logoImage} alt="MVJ College of Engineering" />

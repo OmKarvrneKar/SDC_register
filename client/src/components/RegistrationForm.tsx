@@ -14,6 +14,7 @@ import {
   Fade,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { motion } from 'framer-motion';
 
 // Styled components for enhanced visual design
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -22,6 +23,33 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   '&:hover': {
     transform: 'scale(1.005)',
   },
+  background: 'rgba(255, 255, 255, 0.9)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '16px',
+  boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+}));
+
+const ImageContainer = styled(Box)({
+  width: '100%',
+  height: '200px',
+  overflow: 'hidden',
+  borderRadius: '16px',
+  marginBottom: '2rem',
+  position: 'relative',
+});
+
+const StyledImage = styled('img')({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+});
+
+const GradientTypography = styled(Typography)(({ theme }) => ({
+  background: 'linear-gradient(45deg, #FF6B6B, #4ECDC4)',
+  backgroundClip: 'text',
+  WebkitBackgroundClip: 'text',
+  color: 'transparent',
+  fontWeight: 'bold',
 }));
 
 const StyledChip = styled(Chip)(({ theme }) => ({
@@ -162,233 +190,281 @@ const RegistrationForm = () => {
   return (
     <Fade in timeout={1000}>
       <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-        <StyledPaper elevation={3}>
-          <Typography variant="h4" gutterBottom align="center" sx={{ mb: 4 }}>
-            SDC Registration Form
-          </Typography>
-          
-          <Snackbar
-            open={submitStatus !== null}
-            autoHideDuration={6000}
-            onClose={() => setSubmitStatus(null)}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          >
-            <Alert 
-              severity={submitStatus?.type || 'info'} 
-              sx={{ width: '100%' }}
-              onClose={() => setSubmitStatus(null)}
-            >
-              {submitStatus?.message}
-            </Alert>
-          </Snackbar>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <StyledPaper elevation={3}>
+            <ImageContainer>
+              <StyledImage
+                src="/registration-header.jpg"
+                alt="Students Registration"
+              />
+            </ImageContainer>
 
-          <form onSubmit={handleSubmit}>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
-              <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
-                <TextField
-                  required
-                  fullWidth
-                  label="Full Name"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  error={!!errors.fullName}
-                  helperText={errors.fullName}
-                  disabled={isLoading}
-                />
-              </Box>
-              <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
-                <TextField
-                  required
-                  fullWidth
-                  label="Email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  error={!!errors.email}
-                  helperText={errors.email}
-                  disabled={isLoading}
-                />
-              </Box>
-              <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
-                <TextField
-                  required
-                  fullWidth
-                  label="Student ID"
-                  name="studentId"
-                  value={formData.studentId}
-                  onChange={handleChange}
-                  error={!!errors.studentId}
-                  helperText={errors.studentId}
-                  disabled={isLoading}
-                />
-              </Box>
-              <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
-                <TextField
-                  required
-                  fullWidth
-                  select
-                  label="Branch"
-                  name="branch"
-                  value={formData.branch}
-                  onChange={handleChange}
-                  error={!!errors.branch}
-                  helperText={errors.branch}
-                  disabled={isLoading}
-                >
-                  {branches.map((branch) => (
-                    <MenuItem key={branch} value={branch}>
-                      {branch}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Box>
-              <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
-                <TextField
-                  required
-                  fullWidth
-                  label="Semester"
-                  name="semester"
-                  type="number"
-                  value={formData.semester}
-                  onChange={handleChange}
-                  error={!!errors.semester}
-                  helperText={errors.semester}
-                  inputProps={{ min: 1, max: 8 }}
-                  disabled={isLoading}
-                />
-              </Box>
-              <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
-                <TextField
-                  required
-                  fullWidth
-                  label="Phone Number"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  error={!!errors.phoneNumber}
-                  helperText={errors.phoneNumber}
-                  disabled={isLoading}
-                />
-              </Box>
+            <GradientTypography variant="h4" gutterBottom align="center" sx={{ mb: 4 }}>
+              SDC Registration Form
+            </GradientTypography>
 
-              <Box sx={{ width: '100%' }}>
-                <Box sx={{ mb: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="Add Skills"
-                    value={skill}
-                    onChange={(e) => setSkill(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
-                    disabled={isLoading}
-                  />
-                  <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                    {formData.skills.map((s) => (
-                      <StyledChip
-                        key={s}
-                        label={s}
-                        onDelete={() =>
-                          setFormData({
-                            ...formData,
-                            skills: formData.skills.filter((skill) => skill !== s),
-                          })
-                        }
-                        disabled={isLoading}
-                      />
-                    ))}
-                  </Box>
-                </Box>
-              </Box>
+            <Typography variant="subtitle1" align="center" sx={{ mb: 4, color: 'text.secondary' }}>
+             
+            </Typography>
 
-              <Box sx={{ width: '100%' }}>
-                <Box sx={{ mb: 2 }}>
-                  <TextField
-                    fullWidth
-                    label="Add Areas of Interest"
-                    value={interest}
-                    onChange={(e) => setInterest(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addInterest())}
-                    disabled={isLoading}
-                  />
-                  <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                    {formData.areasOfInterest.map((i) => (
-                      <StyledChip
-                        key={i}
-                        label={i}
-                        onDelete={() =>
-                          setFormData({
-                            ...formData,
-                            areasOfInterest: formData.areasOfInterest.filter(
-                              (interest) => interest !== i
-                            ),
-                          })
-                        }
-                        disabled={isLoading}
-                      />
-                    ))}
-                  </Box>
-                </Box>
-              </Box>
-
-              <Box sx={{ width: '100%' }}>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
-                  label="Previous Projects"
-                  name="previousProjects"
-                  value={formData.previousProjects}
-                  onChange={handleChange}
-                  placeholder="Describe your previous projects (if any)"
-                  disabled={isLoading}
-                />
-              </Box>
-
-              <Box sx={{ width: '100%' }}>
-                <TextField
-                  required
-                  fullWidth
-                  multiline
-                  rows={4}
-                  label="Why do you want to join SDC?"
-                  name="whyJoinSDC"
-                  value={formData.whyJoinSDC}
-                  onChange={handleChange}
-                  error={!!errors.whyJoinSDC}
-                  helperText={errors.whyJoinSDC}
-                  disabled={isLoading}
-                />
-              </Box>
-
-              <Box sx={{ width: '100%', mt: 2 }}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  size="large"
-                  fullWidth
-                  disabled={isLoading}
-                  sx={{
-                    height: 56,
-                    position: 'relative',
-                    transition: 'all 0.2s ease-in-out',
-                    '&:hover': {
-                      transform: 'translateY(-2px)',
-                      boxShadow: (theme) => theme.shadows[4],
-                    },
-                  }}
-                >
-                  {isLoading ? (
-                    <CircularProgress size={24} color="inherit" />
-                  ) : (
-                    'Submit Registration'
-                  )}
-                </Button>
-              </Box>
+            <Box sx={{ mb: 4 }}>
+              <motion.ul
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  visible: {
+                    transition: {
+                      staggerChildren: 0.1
+                    }
+                  }
+                }}
+                style={{ listStyle: 'none', padding: 0 }}
+              >
+                {[
+                ].map((item, index) => (
+                  <motion.li
+                    key={index}
+                    variants={{
+                      hidden: { opacity: 0, x: -10 },
+                      visible: { opacity: 1, x: 0 }
+                    }}
+                    style={{ marginBottom: '0.5rem' }}
+                  >
+                    <Typography sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      • {item}
+                    </Typography>
+                  </motion.li>
+                ))}
+              </motion.ul>
             </Box>
-          </form>
-        </StyledPaper>
+
+            <Snackbar
+              open={submitStatus !== null}
+              autoHideDuration={6000}
+              onClose={() => setSubmitStatus(null)}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+              <Alert 
+                severity={submitStatus?.type || 'info'} 
+                sx={{ width: '100%' }}
+                onClose={() => setSubmitStatus(null)}
+              >
+                {submitStatus?.message}
+              </Alert>
+            </Snackbar>
+
+            <form onSubmit={handleSubmit}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
+                  <TextField
+                    required
+                    fullWidth
+                    label="Full Name"
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    error={!!errors.fullName}
+                    helperText={errors.fullName}
+                    disabled={isLoading}
+                  />
+                </Box>
+                <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
+                  <TextField
+                    required
+                    fullWidth
+                    label="Email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    error={!!errors.email}
+                    helperText={errors.email}
+                    disabled={isLoading}
+                  />
+                </Box>
+                <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
+                  <TextField
+                    required
+                    fullWidth
+                    label="Student ID"
+                    name="studentId"
+                    value={formData.studentId}
+                    onChange={handleChange}
+                    error={!!errors.studentId}
+                    helperText={errors.studentId}
+                    disabled={isLoading}
+                  />
+                </Box>
+                <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
+                  <TextField
+                    required
+                    fullWidth
+                    select
+                    label="Branch"
+                    name="branch"
+                    value={formData.branch}
+                    onChange={handleChange}
+                    error={!!errors.branch}
+                    helperText={errors.branch}
+                    disabled={isLoading}
+                  >
+                    {branches.map((branch) => (
+                      <MenuItem key={branch} value={branch}>
+                        {branch}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Box>
+                <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
+                  <TextField
+                    required
+                    fullWidth
+                    label="Semester"
+                    name="semester"
+                    type="number"
+                    value={formData.semester}
+                    onChange={handleChange}
+                    error={!!errors.semester}
+                    helperText={errors.semester}
+                    inputProps={{ min: 1, max: 8 }}
+                    disabled={isLoading}
+                  />
+                </Box>
+                <Box sx={{ width: { xs: '100%', sm: '47%' } }}>
+                  <TextField
+                    required
+                    fullWidth
+                    label="Phone Number"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleChange}
+                    error={!!errors.phoneNumber}
+                    helperText={errors.phoneNumber}
+                    disabled={isLoading}
+                  />
+                </Box>
+
+                <Box sx={{ width: '100%' }}>
+                  <Box sx={{ mb: 2 }}>
+                    <TextField
+                      fullWidth
+                      label="Add Skills"
+                      value={skill}
+                      onChange={(e) => setSkill(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
+                      disabled={isLoading}
+                    />
+                    <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                      {formData.skills.map((s) => (
+                        <StyledChip
+                          key={s}
+                          label={s}
+                          onDelete={() =>
+                            setFormData({
+                              ...formData,
+                              skills: formData.skills.filter((skill) => skill !== s),
+                            })
+                          }
+                          disabled={isLoading}
+                        />
+                      ))}
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box sx={{ width: '100%' }}>
+                  <Box sx={{ mb: 2 }}>
+                    <TextField
+                      fullWidth
+                      label="Add Areas of Interest"
+                      value={interest}
+                      onChange={(e) => setInterest(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addInterest())}
+                      disabled={isLoading}
+                    />
+                    <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                      {formData.areasOfInterest.map((i) => (
+                        <StyledChip
+                          key={i}
+                          label={i}
+                          onDelete={() =>
+                            setFormData({
+                              ...formData,
+                              areasOfInterest: formData.areasOfInterest.filter(
+                                (interest) => interest !== i
+                              ),
+                            })
+                          }
+                          disabled={isLoading}
+                        />
+                      ))}
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box sx={{ width: '100%' }}>
+                  <TextField
+                    fullWidth
+                    multiline
+                    rows={4}
+                    label="Previous Projects"
+                    name="previousProjects"
+                    value={formData.previousProjects}
+                    onChange={handleChange}
+                    placeholder="Describe your previous projects (if any)"
+                    disabled={isLoading}
+                  />
+                </Box>
+
+                <Box sx={{ width: '100%' }}>
+                  <TextField
+                    required
+                    fullWidth
+                    multiline
+                    rows={4}
+                    label="Why do you want to join SDC?"
+                    name="whyJoinSDC"
+                    value={formData.whyJoinSDC}
+                    onChange={handleChange}
+                    error={!!errors.whyJoinSDC}
+                    helperText={errors.whyJoinSDC}
+                    disabled={isLoading}
+                  />
+                </Box>
+
+                <Box sx={{ width: '100%', mt: 2 }}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    fullWidth
+                    disabled={isLoading}
+                    sx={{
+                      height: 56,
+                      position: 'relative',
+                      transition: 'all 0.2s ease-in-out',
+                      '&:hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: (theme) => theme.shadows[4],
+                      },
+                    }}
+                  >
+                    {isLoading ? (
+                      <CircularProgress size={24} color="inherit" />
+                    ) : (
+                      'Submit Registration'
+                    )}
+                  </Button>
+                </Box>
+              </Box>
+            </form>
+          </StyledPaper>
+        </motion.div>
       </Container>
     </Fade>
   );
